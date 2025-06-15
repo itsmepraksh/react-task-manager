@@ -24,7 +24,7 @@ A simple and responsive task management application built with React. This app a
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/your-username/react-task-manager.git
+git clone https://github.com/itsmepraksh/react-task-manager.git
 cd react-task-manager
 ````
 
@@ -67,11 +67,12 @@ npm start
 
 ## 📌 Future Improvements
 
-- LocalStorage persistence  
-- Task status (e.g. completed / pending)  
-- Task filtering & sorting  
-- Dark mode   
+- ✅ LocalStorage persistence (Now data is saved even after page refresh)  
+- Task status (e.g. completed / pending)   (planned for future)
+- Task filtering & sorting   (planned for future)
+- Dark mode   (planned for future)
 - **Backend integration** using Node.js & Express (planned for future)
+
 
 
 ## 🧑‍💻 Author
