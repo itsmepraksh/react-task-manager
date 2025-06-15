@@ -1,5 +1,5 @@
 @import "tailwindcss";
 
 *:not(input):not(textarea):not([contenteditable="true"]) {
-  caret-color: transparent;
+  caret-color: black;
 }
