@@ -3,22 +3,25 @@ import { dataContext } from "./Wrapper";
 import { useForm } from "react-hook-form";
 
 const Read = () => {
+  
+  const [task, setTask] = useContext(dataContext);
+
+  const [editingTaskId, setEditingTaskId] = useState(null);
+
   const {
     register,
     setValue,
     handleSubmit,
     reset,
-    formState = { error },
+    formState: { errors },
   } = useForm({
     defaultValues: {
       taskName: "",
       taskDesc: "",
     },
   });
-
-  const [task, setTask] = useContext(dataContext);
-  const [editingTaskId, setEditingTaskId] = useState(null);
-
+ 
+  
   useEffect(() => {
     if(editingTaskId){
       const taskToEdit =  task.find((taks)=> taks.taskId === editingTaskId)
@@ -33,6 +36,15 @@ const Read = () => {
       }
   }, [editingTaskId, task , setValue , reset])
   
+  const editTaskForm = ({taskName, taskDesc}) =>{
+    if(editingTaskId){
+      const updatedTasks = task.map((taks)=>  taks.taskId == editingTaskId ? {...taks,taskName:taskName, taskDesc:taskDesc} :taks )
+      setTask(updatedTasks)
+      setEditingTaskId(null)
+    } 
+
+    reset()
+  }
 
   const editTask = (e) => {
     const idToEdit = e.target.id;
@@ -98,25 +110,27 @@ const Read = () => {
         </div>
 
         {isEditing ? (
-          <div className="editPanel w-full my-4 ">
+          <div className="editPanel w-full lg:w-1/2 my-4 ">
             <div className="flex justify-between items-center">
-              <h2 className=" text-lg">Edit</h2>
+              <h2 className=" text-lg xl:text-3xl ">Edit</h2>
               <small
                 onClick={closeEdit}
-                className="text-red-500 p-2 font-medium text-xs"
+                className="text-red-500 p-2 font-medium text-xs xl:text-2xl"
               >
                 close
               </small>
             </div>
-            <form className="flex flex-col gap-4 text-sm">
+            <form onSubmit={handleSubmit(editTaskForm)} className="flex flex-col gap-4 text-sm">
               <div className="taskname flex justify-between items-baseline">
-                <p>task name:</p>
-                <input className="border-[1px] border-gray-500 w-2/3 rounded p-2 " />
+                <p className="xl:text-2xl">task name:</p>
+                <input {...register("taskName", {required:"Edited Task name is required"}) }  className="border-[1px] border-gray-500 w-2/3 rounded p-2 xl:text-xl xl:placeholder:text-2xl" />
               </div>
-              <div className="taskname flex justify-between items-baseline">
-                <p>description:</p>
-                <textarea
-                  className="border-[1px] w-2/3 border-gray-500 p-2 rounded"
+              
+                {errors.taskName && (<small className="text-red-600">{errors.taskName.message}</small>)}
+              <div className="taskdesc flex justify-between items-baseline">
+                <p className="xl:text-2xl">description:</p> 
+                <textarea {...register("taskDesc")}
+                  className="border-[1px] w-2/3 border-gray-500 p-2 rounded xl:placeholder:text-2xl xl:text-xl"
                   rows="2"
                 ></textarea>
               </div>
